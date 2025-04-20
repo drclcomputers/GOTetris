@@ -39,6 +39,8 @@ go build -o gotetris
 ./gotetris start
 ```
 
+---
+
 ## 🎮 How to Play
 1. Start the game:
 ```bash
