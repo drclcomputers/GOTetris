@@ -11,7 +11,7 @@ Welcome to **GoTetris**, a fun and nostalgic Tetris game built entirely in Go! �
 - 🎵 **Sound Effects**: Enable or disable sound effects and background music.
 - ⚡ **Adjustable Difficulty**: Play at your preferred speed—Easy, Intermediate, or Hard.
 - ⌨️ **Keyboard Controls**:
-  - **Arrow Keys**: Move and rotate blocks.
+  - **Arrow Keys or WASD**: Move and rotate blocks.
   - **Spacebar**: Rotate the current piece.
   - **Q**: Quit the game.
 
