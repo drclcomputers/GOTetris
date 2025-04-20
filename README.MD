@@ -52,6 +52,8 @@ go build -o gotetris
 
 3. Stack the blocks to clear lines and score points! 🏆
 
+---
+
 ## ⚙️ Command-Line Options
 Customize your game experience with the following flags:
 
@@ -66,11 +68,15 @@ Example:
 ./gotetris start -p background -s true -d hard
 ```
 
+---
+
 ## 📂 Project Structure
 * cmd/: Contains the Cobra CLI commands.
 * internal/game/: Core game logic and rendering.
 * internal/util/: Utility functions and constants.
 * assets/: Sound files for background music and game over effects.
+
+---
 
 ## 🛠️ Development
 Dependencies
@@ -89,11 +95,17 @@ go mod tidy
 go run .
 ```
 
+---
+
 ## 🎉 Contributing
 We welcome contributions! 🛠️ Feel free to open issues or submit pull requests to improve the game.
 
+---
+
 ## 📜 License
 This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
 
 ## ❤️ Acknowledgments
 * Inspired by the classic Tetris game. 🎵
