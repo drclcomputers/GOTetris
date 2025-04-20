@@ -59,6 +59,7 @@ Flag |	Description	Default
 -p, --printmode	| Set the print mode: background, foreground, or nocolor | nocolor
 -s, --sound	| Enable or disable sound effects |	false
 -d, --speed	| Set the difficulty: easy, intermediate, or hard | intermediate
+
 Example:
 ```bash
 ./gotetris start -p background -s true -d hard
