@@ -107,6 +107,8 @@ We welcome contributions! 🛠️ Feel free to open issues or submit pull reques
 ## 📜 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
+Music by [Melody Ayres-Griffiths](https://pixabay.com/users/melodyayresgriffiths-27269767/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=148250) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=148250)
+
 ---
 
 ## ❤️ Acknowledgments
