@@ -46,9 +46,10 @@ go build -o gotetris
 ```
 2. Use the following controls to play:
 
-Arrow Keys: Move the blocks left, right, or down.
-Spacebar: Rotate the current block.
-Q: Quit the game.
+* Arrow Keys or WASD: Move the blocks left, right, or down.
+* Spacebar: Rotate the current block.
+* Q or ESC: Quit the game.
+
 3. Stack the blocks to clear lines and score points! 🏆
 
 ## ⚙️ Command-Line Options
