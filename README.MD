@@ -55,7 +55,7 @@ Q: Quit the game.
 Customize your game experience with the following flags:
 
 Flag |	Description	Default
----------------------------------
+-----|----------------------------------------------------------------------------
 -p, --printmode	| Set the print mode: background, foreground, or nocolor | nocolor
 -s, --sound	| Enable or disable sound effects |	false
 -d, --speed	| Set the difficulty: easy, intermediate, or hard | intermediate
