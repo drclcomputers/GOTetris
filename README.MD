@@ -74,9 +74,9 @@ Example:
 Dependencies
 This project uses the following Go libraries:
 
-[Cobra](https://github.com/spf13/cobra) for CLI commands.
-[Beep](https://github.com/faiface/beep) for sound effects.
-[Keyboard](https://github.com/eiannone/keyboard) for keyboard input handling.
+* [Cobra](https://github.com/spf13/cobra) for CLI commands.
+* [Beep](https://github.com/faiface/beep) for sound effects.
+* [Keyboard](https://github.com/eiannone/keyboard) for keyboard input handling.
 Run Locally
 1. Install dependencies:
 ```bash
