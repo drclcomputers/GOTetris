@@ -78,23 +78,22 @@ func (g *Game) drawBoard() {
 			case 2:
 				switch cell {
 				case 0:
-					fmt.Print(util.BLACK)
+					fmt.Print(util.BLACK + ". ")
 				case 1:
-					fmt.Print(util.RED)
+					fmt.Print(util.RED + "[]")
 				case 2:
-					fmt.Print(util.GREEN)
+					fmt.Print(util.GREEN + "[]")
 				case 3:
-					fmt.Print(util.YELLOW)
+					fmt.Print(util.YELLOW + "[]")
 				case 4:
-					fmt.Print(util.BLUE)
+					fmt.Print(util.BLUE + "[]")
 				case 5:
-					fmt.Print(util.MAGENTA)
+					fmt.Print(util.MAGENTA + "[]")
 				case 6:
-					fmt.Print(util.CYAN)
+					fmt.Print(util.CYAN + "[]")
 				case 7:
-					fmt.Print(util.WHITE)
+					fmt.Print(util.WHITE + "[]")
 				}
-				fmt.Print("[]")
 			case 4:
 				if cell == 0 {
 					fmt.Print(util.GREEN, ". ")
@@ -150,5 +149,9 @@ func (g *Game) renderNextTetramino() {
 			}
 		}
 		fmt.Print(strings.Repeat(" ", 5))
+	}
+	if len(g.NextShape) == 1 {
+		fmt.Printf("\033[%d;%dH", nextTetraminoRow+1, nextTetraminoCol)
+		fmt.Print(strings.Repeat(" ", 10))
 	}
 }

@@ -7,7 +7,6 @@ package util
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"runtime"
@@ -25,12 +24,14 @@ func Beep() { fmt.Print("\a") }
 func PlayMusic(sound string, times int) {
 	f, err := os.Open(sound)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("Error: Unable to play sound file %s: %v\n", sound, err)
+		return
 	}
 	defer f.Close()
 	streamer, format, err := wav.Decode(f)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("Error: Unable to play sound file %s: %v\n", sound, err)
+		return
 	}
 	defer streamer.Close()
 	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
@@ -60,13 +61,14 @@ func ClearScreen() {
 	}
 	cmd.Stdout = os.Stdout
 	if err := cmd.Run(); err != nil {
-		log.Printf("Failed to clear screen: %v", err)
+		fmt.Printf("Warning: Failed to clear screen: %v\n", err)
 	}
 }
 
 func GetTerminalSize() (int, int) {
 	width, height, err := term.GetSize(int(os.Stdout.Fd()))
 	if err != nil {
+		fmt.Println("Warning: Unable to determine terminal size, using default 80x24.")
 		width, height = 80, 24
 	}
 	return width, height

@@ -48,7 +48,8 @@ func (g *Game) asyncInputHandler() {
 	for {
 		char, key, err := keyboard.GetKey()
 		if err != nil {
-			log.Fatal(err)
+			fmt.Println("Error reading keyboard input:", err)
+			continue
 		}
 		g.InputChan <- keyboard.KeyEvent{Rune: char, Key: key}
 	}

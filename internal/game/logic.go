@@ -16,7 +16,7 @@ func (g *Game) canMove(shape [][]int, posX, posY int) bool {
 			if shape[y][x] != 0 {
 				nX := posX + x
 				nY := posY + y
-				if nX < 0 || nX >= util.WIDTH || nY >= util.HEIGHT {
+				if nY < 0 || nX < 0 || nX >= util.WIDTH || nY >= util.HEIGHT {
 					return false
 				}
 				if nY >= 0 && g.Board[nY][nX] != 0 {
@@ -71,6 +71,7 @@ func (g *Game) clearLines() int {
 			}
 			g.Board[0] = [util.WIDTH]int{}
 			cleared++
+			y++
 		}
 	}
 	g.Score += cleared * (util.AUX + 1) * 100
@@ -104,5 +105,6 @@ func (g *Game) randNewPiece() {
 
 	if !g.canMove(g.CurrentShape, g.PosX, g.PosY) {
 		g.Stop = true
+		return
 	}
 }
