@@ -30,6 +30,7 @@ type Game struct {
 	PrintMode        int
 	Sound            bool
 	Stop             bool
+	Pause            bool
 	InputChan        chan keyboard.KeyEvent
 }
 
@@ -38,6 +39,7 @@ func NewGame() *Game {
 		Speed:     util.INITIALSPEED,
 		PrintMode: util.PRINTMODE,
 		Sound:     util.SOUND,
+		Pause:     false,
 		InputChan: make(chan keyboard.KeyEvent),
 	}
 }
@@ -77,11 +79,13 @@ func (g *Game) keyHandler() {
 			if g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
 				g.PosY++
 			}
-		case event.Key == keyboard.KeySpace:
+		case event.Key == keyboard.KeySpace || event.Rune == 'r' || event.Rune == 'R':
 			rotated := rotate(g.CurrentShape)
 			if g.canMove(rotated, g.PosX, g.PosY) {
 				g.CurrentShape = rotated
 			}
+		case event.Rune == 'p' || event.Rune == 'P':
+			g.Pause = !g.Pause
 		}
 	default:
 
@@ -90,6 +94,10 @@ func (g *Game) keyHandler() {
 
 func (g *Game) gameLoop() {
 	for !g.Stop {
+		for g.Pause {
+			g.keyHandler()
+		}
+
 		g.keyHandler()
 
 		g.drawBoard()

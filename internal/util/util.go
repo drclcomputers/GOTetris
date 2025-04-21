@@ -24,6 +24,9 @@ import (
 func Beep() { fmt.Print("\a") }
 
 func CheckSpeaker() bool {
+	if runtime.GOOS != "linux" {
+		return true
+	}
 	file, err := os.Open("/proc/asound/cards")
 	if err != nil {
 		return false
