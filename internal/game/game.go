@@ -183,6 +183,7 @@ func Welcome() {
 
 func (g *Game) Goodbye() {
 	util.ShowCursor()
+	fmt.Print(util.BG_BLACK, util.BLACK)
 	util.ClearScreen()
 
 	if g.Sound {
@@ -193,5 +194,4 @@ func (g *Game) Goodbye() {
 
 	time.Sleep(2 * time.Second)
 
-	fmt.Print(util.BG_BLACK, util.BLACK)
 }
