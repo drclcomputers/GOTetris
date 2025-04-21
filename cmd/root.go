@@ -7,6 +7,7 @@ package cmd
 
 import (
 	"fmt"
+	"gotetris/internal/util"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -19,8 +20,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "gotetris",
-	Short: "Go Tetris is a terminal Tetris game",
+	Use:     "gotetris",
+	Short:   "Go Tetris is a terminal Tetris game\n" + util.SLOGAN,
+	Version: util.VER,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Show help if no subcommand is provided
 		cmd.Help()
@@ -35,7 +37,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&printMode, "printmode", "p", "nocolor", "Print mode: (1)background, (2)foreground, (3)nocolor")
+	rootCmd.PersistentFlags().StringVarP(&printMode, "printmode", "p", "nocolor", "Print mode: (1)background, (2)foreground, (3)nocolor, (60)electronika 60")
 	rootCmd.PersistentFlags().BoolVarP(&sound, "sound", "s", false, "Enable sound")
-	rootCmd.PersistentFlags().StringVarP(&diff, "speed", "d", "intermediate", "Difficulty: (1)easy, (2)intermediate, (3)hard")
+	rootCmd.PersistentFlags().StringVarP(&diff, "difficulty", "d", "intermediate", "Difficulty: (1)easy, (2)intermediate, (3)hard")
 }

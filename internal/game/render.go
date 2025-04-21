@@ -8,6 +8,7 @@ package game
 import (
 	"fmt"
 	"gotetris/internal/util"
+	"strings"
 )
 
 func (g *Game) drawBoard() {
@@ -26,13 +27,32 @@ func (g *Game) drawBoard() {
 		}
 	}
 
+	offset := (util.TERM_WIDTH - 2*util.WIDTH) / 2
 	util.GoAtTopLeft()
+
+	fmt.Print(util.TITLE)
+	fmt.Print("\n\n")
 
 	for y := 0; y < util.HEIGHT; y++ {
 		if util.PRINTMODE == 4 {
 			fmt.Print(util.GREEN)
 		}
-		fmt.Print("│ ")
+
+		if y != 2 {
+			fmt.Print(strings.Repeat(" ", offset))
+			fmt.Print("│ ")
+		} else {
+			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
+				fmt.Print(util.RED)
+			}
+			fmt.Print(util.SLOGAN)
+			fmt.Print(strings.Repeat(" ", offset-len(util.SLOGAN)))
+			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
+				fmt.Print(util.BLACK)
+			}
+			fmt.Print("│ ")
+		}
+
 		for x := 0; x < util.WIDTH; x++ {
 			cell := tempBoard[y][x]
 			switch g.PrintMode {
@@ -93,12 +113,42 @@ func (g *Game) drawBoard() {
 		if util.PRINTMODE == 4 {
 			fmt.Print(util.GREEN)
 		}
-		fmt.Println(" │")
+		fmt.Print(" │")
+
+		if y == 5 {
+			fmt.Print(strings.Repeat(" ", 4))
+			fmt.Printf("Score: %d", g.Score)
+		}
+
+		if y == 7 {
+			fmt.Print(strings.Repeat(" ", 4))
+			fmt.Print("Next:")
+		}
+
+		fmt.Println()
 	}
+
+	fmt.Print(strings.Repeat(" ", offset))
 	fmt.Print("└")
-	for i := 0; i < 2*(util.WIDTH+1); i++ {
-		fmt.Print("─")
-	}
+	fmt.Print(strings.Repeat("─", 2*(util.WIDTH+1)))
 	fmt.Print("┘")
-	fmt.Printf("\nScore: %d\n", g.Score)
+
+	g.renderNextTetramino()
+}
+
+func (g *Game) renderNextTetramino() {
+	nextTetraminoRow := 18
+	nextTetraminoCol := util.WIDTH*2 + 10 + (util.TERM_WIDTH-2*util.WIDTH)/2
+
+	for y := 0; y < len(g.NextShape); y++ {
+		fmt.Printf("\033[%d;%dH", nextTetraminoRow+y, nextTetraminoCol)
+		for x := 0; x < len(g.NextShape[0]); x++ {
+			if g.NextShape[y][x] != 0 {
+				fmt.Print("[]")
+			} else {
+				fmt.Print("  ")
+			}
+		}
+		fmt.Print(strings.Repeat(" ", 5))
+	}
 }

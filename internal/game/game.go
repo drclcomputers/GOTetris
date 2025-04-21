@@ -19,6 +19,8 @@ type Game struct {
 	Board            [util.HEIGHT][util.WIDTH]int
 	CurrentShape     [][]int
 	CurrentShapeType int
+	NextShape        [][]int
+	NextShapeType    int
 	PosX, PosY       int
 	Score            int
 	Speed            int
@@ -118,11 +120,15 @@ func (g *Game) Start() {
 }
 
 func Welcome() {
+	util.TERM_WIDTH, util.TERM_HEIGHT = util.GetTerminalSize()
+
 	util.HideCursor()
 	util.ClearScreen()
+
 	if util.PRINTMODE == 4 {
 		fmt.Print(util.GREEN)
 	}
+
 	fmt.Println("Welcome to GOTetris!")
 	fmt.Println("Controls: Arrow keys to move, Space to rotate, Q to quit")
 	fmt.Println("Press Enter to start...")
@@ -142,7 +148,7 @@ func (g *Game) Goodbye() {
 	fmt.Printf("Game Over!\nYour score is: %d\n\nThank you for playing!", g.Score)
 	util.ShowCursor()
 
-	time.Sleep(1 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	fmt.Print(util.BLACK, util.BG_BLACK)
 }

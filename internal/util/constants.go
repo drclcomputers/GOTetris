@@ -8,7 +8,7 @@ package util
 const (
 	WIDTH       = 10
 	HEIGHT      = 20
-	MODIFYSCORE = 400
+	MODIFYSCORE = 1000
 	MINSPEED    = 50
 
 	BLACK   = "\033[0m"
@@ -43,8 +43,24 @@ var Tetraminos = [][][]int{
 	{{1, 1, 0}, {0, 1, 1}}, // Z
 }
 
-var PRINTMODE = 3 // 3: no color, 1: background color, 2: foreground color
-var SOUND = false
-var INITIALSPEED = 165
+var (
+	PRINTMODE    = 3 // 3: no color, 1: background color, 2: foreground color, 4: Electronika 60
+	SOUND        = false
+	INITIALSPEED = 165
 
-var AUX = 0
+	AUX = 0
+
+	TERM_HEIGHT = 24
+	TERM_WIDTH  = 80
+)
+
+const TITLE = `
+   ██████   ██████  ████████ ███████ ███████ █████   ██  ████
+  ██       ██    ██    ██    ██         ██   ██   ██ ██ ██   
+  ██  ████ ██    ██    ██    █████      ██   █████   ██   ██
+  ██    ██ ██    ██    ██    ██         ██   ██   ██ ██     ██ 
+   ██████   ██████     ██    ███████    ██   ██   ██ ██  ████        
+`
+
+const VER = "0.6"
+const SLOGAN = "     From RSR with love! <3"

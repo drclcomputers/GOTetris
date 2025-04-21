@@ -6,6 +6,7 @@ require (
 	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
 	github.com/faiface/beep v1.1.0
 	github.com/spf13/cobra v1.9.1
+	golang.org/x/term v0.31.0
 )
 
 require (

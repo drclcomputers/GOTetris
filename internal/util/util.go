@@ -16,6 +16,7 @@ import (
 	"github.com/faiface/beep"
 	"github.com/faiface/beep/speaker"
 	"github.com/faiface/beep/wav"
+	"golang.org/x/term"
 )
 
 // Utility functions
@@ -61,4 +62,12 @@ func ClearScreen() {
 	if err := cmd.Run(); err != nil {
 		log.Printf("Failed to clear screen: %v", err)
 	}
+}
+
+func GetTerminalSize() (int, int) {
+	width, height, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		width, height = 80, 24
+	}
+	return width, height
 }

@@ -88,8 +88,16 @@ func (g *Game) adjustScore() {
 }
 
 func (g *Game) randNewPiece() {
-	g.CurrentShapeType = rand.Intn(len(util.Tetraminos))
-	g.CurrentShape = util.Tetraminos[g.CurrentShapeType]
+	if g.NextShape == nil {
+		g.NextShapeType = rand.Intn(len(util.Tetraminos))
+		g.NextShape = util.Tetraminos[g.NextShapeType]
+	}
+
+	g.CurrentShapeType = g.NextShapeType
+	g.CurrentShape = g.NextShape
+
+	g.NextShapeType = rand.Intn(len(util.Tetraminos))
+	g.NextShape = util.Tetraminos[g.NextShapeType]
 
 	g.PosX = (util.WIDTH - len(g.CurrentShape[0])) / 2
 	g.PosY = 0
