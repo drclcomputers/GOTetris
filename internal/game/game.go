@@ -180,6 +180,8 @@ func Welcome() {
 	var input string
 	fmt.Scanln(&input)
 	if input == "q" {
+		fmt.Print(util.BLACK)
+		util.ClearScreen()
 		os.Exit(0)
 	}
 	util.ClearScreen()
