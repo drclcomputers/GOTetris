@@ -114,7 +114,6 @@ func (g *Game) Start() {
 	defer util.ShowCursor()
 	defer keyboard.Close()
 
-	// Handle interrupt signals
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
@@ -123,6 +122,11 @@ func (g *Game) Start() {
 		keyboard.Close()
 		os.Exit(0)
 	}()
+
+	if g.Sound && !util.CheckSpeaker() {
+		fmt.Println("Warning: No speaker detected. Sound will be disabled.")
+		g.Sound = false
+	}
 
 	if g.Sound {
 		go util.PlayMusic(util.BACKGROUNDMUSIC, -1)

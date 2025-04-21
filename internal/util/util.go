@@ -21,18 +21,17 @@ import (
 // Utility functions
 func Beep() { fmt.Print("\a") }
 
-func checkSpeaker() bool {
+func CheckSpeaker() bool {
 	sampleRate := beep.SampleRate(44100)
 	err := speaker.Init(sampleRate, sampleRate.N(time.Second/10))
 	if err != nil {
-		fmt.Println("No speaker detected or unable to initialize audio output:", err)
 		return false
 	}
 	return true
 }
 
 func PlayMusic(sound string, times int) {
-	if !checkSpeaker() {
+	if !CheckSpeaker() {
 		return
 	}
 
