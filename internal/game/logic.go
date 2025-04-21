@@ -74,18 +74,8 @@ func (g *Game) clearLines() int {
 			y++
 		}
 	}
-	g.Score += cleared * (util.AUX + 1) * 100
+	g.Score += cleared * 100
 	return cleared
-}
-
-func (g *Game) adjustScore() {
-	if g.Score%util.MODIFYSCORE == 0 && g.Score != util.AUX*util.MODIFYSCORE {
-		util.AUX++
-		g.Speed -= 15
-		if g.Speed < util.MINSPEED {
-			g.Speed = util.MINSPEED
-		}
-	}
 }
 
 func (g *Game) randNewPiece() {

@@ -64,3 +64,6 @@ const TITLE = `
 
 const VER = "0.6"
 const SLOGAN = "     From RSR with love! <3"
+
+var FG_COLORS = []string{BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE}
+var BG_COLORS = []string{BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE}

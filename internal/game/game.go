@@ -8,7 +8,6 @@ package game
 import (
 	"fmt"
 	"gotetris/internal/util"
-	"log"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -44,87 +43,78 @@ func NewGame() *Game {
 	}
 }
 
-func (g *Game) asyncInputHandler() {
-	err := keyboard.Open()
-	if err != nil {
-		log.Fatalf("Failed to initialize keyboard input: %v", err)
-	}
-	defer keyboard.Close()
-
+func (g *Game) pollInput() {
 	for !g.Stop {
 		char, key, err := keyboard.GetKey()
 		if err != nil {
 			//fmt.Println("Error reading keyboard input:", err)
 			continue
 		}
-		g.InputChan <- keyboard.KeyEvent{Rune: char, Key: key}
+		g.InputChan <- keyboard.KeyEvent{Key: key, Rune: char}
 	}
 }
 
-func (g *Game) keyHandler() {
-	select {
-	case event := <-g.InputChan:
-		switch {
-		case (event.Key == keyboard.KeyEsc || event.Rune == 'q' || event.Rune == 'Q') && !g.Pause:
-			g.Stop = true
-		case (event.Key == keyboard.KeyArrowLeft || event.Rune == 'a' || event.Rune == 'A') && !g.Pause:
-			if g.canMove(g.CurrentShape, g.PosX-1, g.PosY) {
-				g.PosX--
-			}
-		case (event.Key == keyboard.KeyArrowRight || event.Rune == 'd' || event.Rune == 'D') && !g.Pause:
-			if g.canMove(g.CurrentShape, g.PosX+1, g.PosY) {
-				g.PosX++
-			}
-		case (event.Key == keyboard.KeyArrowDown || event.Rune == 's' || event.Rune == 'S') && !g.Pause:
-			if g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
-				g.PosY++
-			}
-		case (event.Key == keyboard.KeySpace || event.Rune == 'r' || event.Rune == 'R') && !g.Pause:
-			rotated := rotate(g.CurrentShape)
-			if g.canMove(rotated, g.PosX, g.PosY) {
-				g.CurrentShape = rotated
-			}
-		case event.Rune == 'p' || event.Rune == 'P':
-			if g.Pause {
-				fmt.Printf("\033[%d;%dH", util.HEIGHT-5, 6)
-				fmt.Print("      ")
-			}
-			g.Pause = !g.Pause
-		default:
+func (g *Game) handleKeyEvent(key keyboard.Key, char rune) {
+	switch {
+	case (key == keyboard.KeyEsc || char == 'q' || char == 'Q') && !g.Pause:
+		g.Stop = true
+	case (key == keyboard.KeyArrowLeft || char == 'a' || char == 'A') && !g.Pause:
+		if g.canMove(g.CurrentShape, g.PosX-1, g.PosY) {
+			g.PosX--
 		}
+	case (key == keyboard.KeyArrowRight || char == 'd' || char == 'D') && !g.Pause:
+		if g.canMove(g.CurrentShape, g.PosX+1, g.PosY) {
+			g.PosX++
+		}
+	case (key == keyboard.KeyArrowDown || char == 's' || char == 'S') && !g.Pause:
+		if g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
+			g.PosY++
+		}
+	case (char == 'm' || char == 'M' || char == 'r' || char == 'R') && !g.Pause:
+		rotated := rotate(g.CurrentShape)
+		if g.canMove(rotated, g.PosX, g.PosY) {
+			g.CurrentShape = rotated
+		}
+	case key == keyboard.KeySpace:
+		for g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
+			g.PosY++
+		}
+	case char == 'p' || char == 'P':
+		g.Pause = !g.Pause
 	default:
-
 	}
 }
 
 func (g *Game) gameLoop() {
+	renderTicker := time.NewTicker(33 * time.Millisecond)
+	defer renderTicker.Stop()
+
+	dropTicker := time.NewTicker(1 * time.Second)
+	defer dropTicker.Stop()
+
 	for !g.Stop {
-		for g.Pause {
-			g.keyHandler()
-			fmt.Printf("\033[%d;%dH", util.HEIGHT-5, 6)
-			fmt.Print("Paused")
+		select {
+		case event := <-g.InputChan:
+			g.handleKeyEvent(event.Key, event.Rune)
+
+		case <-renderTicker.C:
+			g.drawBoard()
+
+		case <-dropTicker.C:
+			if !g.Pause {
+				if g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
+					g.PosY++
+				} else {
+					g.lockToBoard()
+					g.clearLines()
+					g.randNewPiece()
+				}
+			}
 		}
-
-		g.keyHandler()
-
-		g.drawBoard()
-
-		if g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
-			g.PosY++
-		} else {
-			g.lockToBoard()
-			g.clearLines()
-			g.randNewPiece()
-		}
-
 		if g.Stop {
 			fmt.Printf("\033[%d;%dH", util.HEIGHT-5, 6)
 			fmt.Print("Press Enter to continue...")
 		}
-
-		time.Sleep(time.Duration(g.Speed) * time.Millisecond)
-
-		g.adjustScore()
 	}
 }
 
@@ -132,6 +122,11 @@ func (g *Game) Start() {
 	Welcome()
 	defer g.Goodbye()
 	defer util.ShowCursor()
+
+	if err := keyboard.Open(); err != nil {
+		fmt.Println("Error initializing keyboard input:", err)
+		os.Exit(1)
+	}
 	defer keyboard.Close()
 
 	c := make(chan os.Signal, 1)
@@ -154,9 +149,10 @@ func (g *Game) Start() {
 
 	rand.Seed(time.Now().UnixNano())
 
-	go g.asyncInputHandler()
-
 	g.randNewPiece()
+
+	go g.pollInput()
+
 	g.gameLoop()
 }
 

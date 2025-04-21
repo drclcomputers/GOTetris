@@ -13,7 +13,6 @@ Welcome to **GoTetris**, a fun and nostalgic Tetris game built entirely in Go! �
 - 🕹️ **Classic Tetris Gameplay**: Relive the timeless fun of Tetris in your terminal.
 - 🎨 **Customizable Visuals**: Choose between no color, background color, foreground or the original electronika 60 color modes.
 - 🎵 **Sound Effects**: Enable or disable sound effects and background music.
-- ⚡ **Adjustable Difficulty**: Play at your preferred speed—Easy, Intermediate, or Hard.
 - ⌨️ **Keyboard Controls**:
   - **Arrow Keys or WASD**: Move and rotate blocks.
   - **'p'**: Pause the game.
@@ -70,11 +69,10 @@ Flag |	Description	Default
 -----|----------------------------------------------------------------------------
 -p, --printmode	| Set the print mode: (1)background, (2)foreground, (3)nocolor or (60)electronika 60 | nocolor
 -s, --sound	| Enable or disable sound effects |	false
--d, --speed	| Set the difficulty: (1)easy, (2)intermediate, or (3)hard | intermediate
 
 Example:
 ```bash
-./gotetris start -p=60 -s -d=2
+./gotetris start -p=60 -s
 ```
 
 ---

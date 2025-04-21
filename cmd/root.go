@@ -38,5 +38,5 @@ func Execute() {
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&printMode, "printmode", "p", "nocolor", "Print mode: (1)background, (2)foreground, (3)nocolor, (60)electronika 60")
 	rootCmd.PersistentFlags().BoolVarP(&sound, "sound", "s", false, "Enable sound")
-	rootCmd.PersistentFlags().StringVarP(&diff, "difficulty", "d", "intermediate", "Difficulty: (1)easy, (2)intermediate, (3)hard")
+	//rootCmd.PersistentFlags().StringVarP(&diff, "difficulty", "d", "intermediate", "Difficulty: (1)easy, (2)intermediate, (3)hard")
 }

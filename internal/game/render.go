@@ -1,8 +1,3 @@
-// Copyright (c) 2025 @drclcomputers. All rights reserved.
-//
-// This work is licensed under the terms of the MIT license.
-// For a copy, see <https://opensource.org/licenses/MIT>.
-
 package game
 
 import (
@@ -12,128 +7,86 @@ import (
 )
 
 func (g *Game) drawBoard() {
-	tempBoard := g.Board
-	for y := range tempBoard {
-		tempBoard[y] = g.Board[y]
-	}
-
-	for y := 0; y < len(g.CurrentShape); y++ {
-		for x := 0; x < len(g.CurrentShape[0]); x++ {
-			if g.CurrentShape[y][x] != 0 {
-				if g.PosY+y >= 0 && g.PosY+y < util.HEIGHT && g.PosX+x >= 0 && g.PosX+x < util.WIDTH {
-					tempBoard[g.PosY+y][g.PosX+x] = g.CurrentShapeType + 1
-				}
-			}
-		}
-	}
-
 	offset := (util.TERM_WIDTH - 2*util.WIDTH) / 2
-	util.GoAtTopLeft()
+	var builder strings.Builder
 
-	fmt.Print(util.TITLE)
-	fmt.Print("\n\n")
+	util.GoAtTopLeft()
+	builder.WriteString(util.TITLE + "\n\n")
 
 	for y := 0; y < util.HEIGHT; y++ {
 		if util.PRINTMODE == 4 {
-			fmt.Print(util.BG_BLACK + util.GREEN)
+			builder.WriteString(util.BG_BLACK + util.GREEN)
 		}
 
 		if y != 2 {
-			fmt.Print(strings.Repeat(" ", offset))
-			fmt.Print("│ ")
+			builder.WriteString(strings.Repeat(" ", offset) + "│ ")
 		} else {
 			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
-				fmt.Print(util.RED)
+				builder.WriteString(util.RED)
 			}
-			fmt.Print(util.SLOGAN)
-			fmt.Print(strings.Repeat(" ", offset-len(util.SLOGAN)))
+			builder.WriteString(util.SLOGAN)
+			builder.WriteString(strings.Repeat(" ", offset-len(util.SLOGAN)))
 			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
-				fmt.Print(util.WHITE)
+				builder.WriteString(util.WHITE)
 			}
-			fmt.Print("│ ")
+			builder.WriteString("│ ")
 		}
 
 		for x := 0; x < util.WIDTH; x++ {
-			cell := tempBoard[y][x]
-			switch g.PrintMode {
-			case 1:
-				switch cell {
-				case 0:
-					fmt.Print(util.BG_BLACK + "  ")
-				case 1:
-					fmt.Print(util.BG_RED + "  ")
-				case 2:
-					fmt.Print(util.BG_GREEN + "  ")
-				case 3:
-					fmt.Print(util.BG_YELLOW + "  ")
-				case 4:
-					fmt.Print(util.BG_BLUE + "  ")
-				case 5:
-					fmt.Print(util.BG_MAGENTA + "  ")
-				case 6:
-					fmt.Print(util.BG_CYAN + "  ")
-				case 7:
-					fmt.Print(util.BG_WHITE + "  ")
-				}
-			case 2:
-				fmt.Print(util.BG_BLACK)
-				switch cell {
-				case 0:
-					fmt.Print(util.WHITE + ". ")
-				case 1:
-					fmt.Print(util.RED + "[]")
-				case 2:
-					fmt.Print(util.GREEN + "[]")
-				case 3:
-					fmt.Print(util.YELLOW + "[]")
-				case 4:
-					fmt.Print(util.BLUE + "[]")
-				case 5:
-					fmt.Print(util.MAGENTA + "[]")
-				case 6:
-					fmt.Print(util.CYAN + "[]")
-				case 7:
-					fmt.Print(util.WHITE + "[]")
-				}
-			case 4:
-				if cell == 0 {
-					fmt.Print(util.BG_BLACK, util.GREEN, ". ")
-				} else {
-					fmt.Print(util.BG_BLACK, util.GREEN, "[]")
-				}
-			default:
-				if cell == 0 {
-					fmt.Print(". ")
-				} else {
-					fmt.Print("[]")
-				}
-			}
-			fmt.Print(util.BG_BLACK + util.WHITE)
+			cell := g.getCellValue(x, y)
+			builder.WriteString(g.renderCell(cell))
 		}
+
 		if util.PRINTMODE == 4 {
-			fmt.Print(util.BG_BLACK + util.GREEN)
+			builder.WriteString(util.BG_BLACK + util.GREEN)
 		}
-		fmt.Print(" │")
+		builder.WriteString(" │")
 
 		if y == 5 {
-			fmt.Print(strings.Repeat(" ", 4))
-			fmt.Printf("Score: %d", g.Score)
+			builder.WriteString(strings.Repeat(" ", 4))
+			builder.WriteString(fmt.Sprintf("Score: %d", g.Score))
 		}
 
 		if y == 7 {
-			fmt.Print(strings.Repeat(" ", 4))
-			fmt.Print("Next:")
+			builder.WriteString(strings.Repeat(" ", 4))
+			builder.WriteString("Next:")
 		}
 
-		fmt.Println()
+		builder.WriteString("\n")
 	}
 
-	fmt.Print(strings.Repeat(" ", offset))
-	fmt.Print("└")
-	fmt.Print(strings.Repeat("─", 2*(util.WIDTH+1)))
-	fmt.Print("┘")
+	builder.WriteString(strings.Repeat(" ", offset) + "└" + strings.Repeat("─", 2*(util.WIDTH+1)) + "┘")
+	fmt.Print(builder.String())
 
 	g.renderNextTetramino()
+}
+
+func (g *Game) getCellValue(x, y int) int {
+	if g.PosY <= y && y < g.PosY+len(g.CurrentShape) &&
+		g.PosX <= x && x < g.PosX+len(g.CurrentShape[0]) &&
+		g.CurrentShape[y-g.PosY][x-g.PosX] != 0 {
+		return g.CurrentShapeType + 1
+	}
+	return g.Board[y][x]
+}
+
+func (g *Game) renderCell(cell int) string {
+	switch g.PrintMode {
+	case 1:
+		return util.BG_COLORS[cell] + "  " + util.BLACK
+	case 2:
+		return util.BG_BLACK + util.FG_COLORS[cell] + "[]" + util.BLACK
+	case 4:
+		if cell == 0 {
+			return util.BG_BLACK + util.GREEN + ". "
+		}
+		return util.BG_BLACK + util.GREEN + "[]"
+	default:
+		if cell == 0 {
+			return ". "
+		}
+		return "[]"
+	}
 }
 
 func (g *Game) renderNextTetramino() {

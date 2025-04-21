@@ -14,34 +14,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+func parseConfig(printMode string, sound bool) {
+	switch strings.ToLower(printMode) {
+	case "1", "background":
+		util.PRINTMODE = 1
+	case "2", "foreground":
+		util.PRINTMODE = 2
+	case "3", "nocolor":
+		util.PRINTMODE = 3
+	case "4", "60", "electronika":
+		util.PRINTMODE = 4
+	default:
+		util.PRINTMODE = 3
+	}
+	util.SOUND = sound
+}
+
 var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start the Tetris game",
 	Run: func(cmd *cobra.Command, args []string) {
-		switch strings.ToLower(printMode) {
-		case "1", "background":
-			util.PRINTMODE = 1
-		case "2", "foreground":
-			util.PRINTMODE = 2
-		case "3", "nocolor":
-			util.PRINTMODE = 3
-		case "4", "60", "electronika":
-			util.PRINTMODE = 4
-		default:
-			util.PRINTMODE = 3
-		}
-		util.SOUND = sound
-
-		switch strings.ToLower(diff) {
-		case "1", "easy":
-			util.INITIALSPEED = 300
-		case "2", "intermediate":
-			util.INITIALSPEED = 200
-		case "3", "hard":
-			util.INITIALSPEED = 150
-		default:
-			util.INITIALSPEED = 200
-		}
+		parseConfig(printMode, sound)
 
 		g := game.NewGame()
 		g.Start()
