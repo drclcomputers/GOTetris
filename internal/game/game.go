@@ -54,7 +54,7 @@ func (g *Game) asyncInputHandler() {
 	for !g.Stop {
 		char, key, err := keyboard.GetKey()
 		if err != nil {
-			fmt.Println("Error reading keyboard input:", err)
+			//fmt.Println("Error reading keyboard input:", err)
 			continue
 		}
 		g.InputChan <- keyboard.KeyEvent{Rune: char, Key: key}
@@ -65,27 +65,32 @@ func (g *Game) keyHandler() {
 	select {
 	case event := <-g.InputChan:
 		switch {
-		case event.Key == keyboard.KeyEsc || event.Rune == 'q' || event.Rune == 'Q':
+		case (event.Key == keyboard.KeyEsc || event.Rune == 'q' || event.Rune == 'Q') && !g.Pause:
 			g.Stop = true
-		case event.Key == keyboard.KeyArrowLeft || event.Rune == 'a' || event.Rune == 'A':
+		case (event.Key == keyboard.KeyArrowLeft || event.Rune == 'a' || event.Rune == 'A') && !g.Pause:
 			if g.canMove(g.CurrentShape, g.PosX-1, g.PosY) {
 				g.PosX--
 			}
-		case event.Key == keyboard.KeyArrowRight || event.Rune == 'd' || event.Rune == 'D':
+		case (event.Key == keyboard.KeyArrowRight || event.Rune == 'd' || event.Rune == 'D') && !g.Pause:
 			if g.canMove(g.CurrentShape, g.PosX+1, g.PosY) {
 				g.PosX++
 			}
-		case event.Key == keyboard.KeyArrowDown || event.Rune == 's' || event.Rune == 'S':
+		case (event.Key == keyboard.KeyArrowDown || event.Rune == 's' || event.Rune == 'S') && !g.Pause:
 			if g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
 				g.PosY++
 			}
-		case event.Key == keyboard.KeySpace || event.Rune == 'r' || event.Rune == 'R':
+		case (event.Key == keyboard.KeySpace || event.Rune == 'r' || event.Rune == 'R') && !g.Pause:
 			rotated := rotate(g.CurrentShape)
 			if g.canMove(rotated, g.PosX, g.PosY) {
 				g.CurrentShape = rotated
 			}
 		case event.Rune == 'p' || event.Rune == 'P':
+			if g.Pause {
+				fmt.Printf("\033[%d;%dH", util.HEIGHT-5, 6)
+				fmt.Print("      ")
+			}
 			g.Pause = !g.Pause
+		default:
 		}
 	default:
 
@@ -96,6 +101,8 @@ func (g *Game) gameLoop() {
 	for !g.Stop {
 		for g.Pause {
 			g.keyHandler()
+			fmt.Printf("\033[%d;%dH", util.HEIGHT-5, 6)
+			fmt.Print("Paused")
 		}
 
 		g.keyHandler()
@@ -108,6 +115,11 @@ func (g *Game) gameLoop() {
 			g.lockToBoard()
 			g.clearLines()
 			g.randNewPiece()
+		}
+
+		if g.Stop {
+			fmt.Printf("\033[%d;%dH", util.HEIGHT-5, 6)
+			fmt.Print("Press Enter to continue...")
 		}
 
 		time.Sleep(time.Duration(g.Speed) * time.Millisecond)

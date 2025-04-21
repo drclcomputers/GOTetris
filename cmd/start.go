@@ -34,13 +34,13 @@ var startCmd = &cobra.Command{
 
 		switch strings.ToLower(diff) {
 		case "1", "easy":
-			util.INITIALSPEED = 250
+			util.INITIALSPEED = 300
 		case "2", "intermediate":
-			util.INITIALSPEED = 175
+			util.INITIALSPEED = 200
 		case "3", "hard":
-			util.INITIALSPEED = 135
+			util.INITIALSPEED = 150
 		default:
-			util.INITIALSPEED = 175
+			util.INITIALSPEED = 200
 		}
 
 		g := game.NewGame()
