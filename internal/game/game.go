@@ -166,6 +166,8 @@ func Welcome() {
 	util.HideCursor()
 	util.ClearScreen()
 
+	fmt.Print(util.BG_BLACK)
+
 	if util.PRINTMODE == 4 {
 		fmt.Print(util.GREEN)
 	}
