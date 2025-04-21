@@ -21,6 +21,7 @@ Welcome to **GoTetris**, a fun and nostalgic Tetris game built entirely in Go! ð
 
 ### Prerequisites
 - Go 1.24.2 or higher installed on your system.
+- ALSA development package
 
 ### Installation
 1. Clone the repository:
