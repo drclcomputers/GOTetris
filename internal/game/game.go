@@ -163,10 +163,10 @@ func (g *Game) Start() {
 func Welcome() {
 	util.TERM_WIDTH, util.TERM_HEIGHT = util.GetTerminalSize()
 
+	fmt.Print(util.BG_BLACK)
+
 	util.HideCursor()
 	util.ClearScreen()
-
-	fmt.Print(util.BG_BLACK)
 
 	if util.PRINTMODE == 4 {
 		fmt.Print(util.GREEN)
@@ -193,5 +193,5 @@ func (g *Game) Goodbye() {
 
 	time.Sleep(2 * time.Second)
 
-	fmt.Print(util.BLACK, util.BG_BLACK)
+	fmt.Print(util.BG_BLACK, util.BLACK)
 }
