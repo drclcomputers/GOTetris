@@ -79,7 +79,7 @@ func (g *Game) drawBoard() {
 				fmt.Print(util.BG_BLACK)
 				switch cell {
 				case 0:
-					fmt.Print(util.BLACK + ". ")
+					fmt.Print(util.WHITE + ". ")
 				case 1:
 					fmt.Print(util.RED + "[]")
 				case 2:
