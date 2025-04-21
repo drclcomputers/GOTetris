@@ -108,7 +108,7 @@ func (g *Game) drawBoard() {
 					fmt.Print("[]")
 				}
 			}
-			fmt.Print(util.BG_BLACK)
+			fmt.Print(util.BG_BLACK + util.WHITE)
 		}
 		if util.PRINTMODE == 4 {
 			fmt.Print(util.BG_BLACK + util.GREEN)
