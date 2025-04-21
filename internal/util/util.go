@@ -6,10 +6,12 @@
 package util
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/faiface/beep"
@@ -22,12 +24,24 @@ import (
 func Beep() { fmt.Print("\a") }
 
 func CheckSpeaker() bool {
-	sampleRate := beep.SampleRate(44100)
-	err := speaker.Init(sampleRate, sampleRate.N(time.Second/10))
+	file, err := os.Open("/proc/asound/cards")
 	if err != nil {
 		return false
 	}
-	return true
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.Contains(line, "[") && strings.Contains(line, "]") {
+			return true
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return false
+	}
+	return false
 }
 
 func PlayMusic(sound string, times int) {
