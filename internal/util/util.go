@@ -24,13 +24,11 @@ func Beep() { fmt.Print("\a") }
 func PlayMusic(sound string, times int) {
 	f, err := os.Open(sound)
 	if err != nil {
-		fmt.Printf("Error: Unable to play sound file %s: %v\n", sound, err)
 		return
 	}
 	defer f.Close()
 	streamer, format, err := wav.Decode(f)
 	if err != nil {
-		fmt.Printf("Error: Unable to play sound file %s: %v\n", sound, err)
 		return
 	}
 	defer streamer.Close()

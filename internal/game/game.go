@@ -10,6 +10,9 @@ import (
 	"gotetris/internal/util"
 	"log"
 	"math/rand"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/eiannone/keyboard"
@@ -45,7 +48,8 @@ func (g *Game) asyncInputHandler() {
 		log.Fatalf("Failed to initialize keyboard input: %v", err)
 	}
 	defer keyboard.Close()
-	for {
+
+	for !g.Stop {
 		char, key, err := keyboard.GetKey()
 		if err != nil {
 			fmt.Println("Error reading keyboard input:", err)
@@ -107,6 +111,18 @@ func (g *Game) gameLoop() {
 func (g *Game) Start() {
 	Welcome()
 	defer g.Goodbye()
+	defer util.ShowCursor()
+	defer keyboard.Close()
+
+	// Handle interrupt signals
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-c
+		util.ShowCursor()
+		keyboard.Close()
+		os.Exit(0)
+	}()
 
 	if g.Sound {
 		go util.PlayMusic(util.BACKGROUNDMUSIC, -1)
@@ -140,6 +156,7 @@ func Welcome() {
 }
 
 func (g *Game) Goodbye() {
+	util.ShowCursor()
 	util.ClearScreen()
 
 	if g.Sound {
@@ -147,7 +164,6 @@ func (g *Game) Goodbye() {
 	}
 
 	fmt.Printf("Game Over!\nYour score is: %d\n\nThank you for playing!", g.Score)
-	util.ShowCursor()
 
 	time.Sleep(2 * time.Second)
 
