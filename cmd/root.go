@@ -24,7 +24,6 @@ var rootCmd = &cobra.Command{
 	Short:   "Go Tetris is a terminal Tetris game\n" + util.SLOGAN,
 	Version: util.VER,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Show help if no subcommand is provided
 		cmd.Help()
 	},
 }
