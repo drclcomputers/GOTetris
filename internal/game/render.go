@@ -35,7 +35,7 @@ func (g *Game) drawBoard() {
 
 	for y := 0; y < util.HEIGHT; y++ {
 		if util.PRINTMODE == 4 {
-			fmt.Print(util.GREEN)
+			fmt.Print(util.BG_BLACK + util.GREEN)
 		}
 
 		if y != 2 {
