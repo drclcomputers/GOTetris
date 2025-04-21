@@ -173,11 +173,15 @@ func Welcome() {
 	}
 
 	fmt.Println("Welcome to GOTetris!")
-	fmt.Println("Controls: Arrow keys to move, Space to rotate, Q to quit")
-	fmt.Println("Press Enter to start...")
+	fmt.Println()
+	fmt.Println("Controls: Arrow keys or WASD to move, Space or R to rotate, P to pause, Q to quit")
+	fmt.Println("Press Enter to start or type 'q' to exit...")
 
 	var input string
 	fmt.Scanln(&input)
+	if input == "q" {
+		os.Exit(0)
+	}
 	util.ClearScreen()
 }
 
