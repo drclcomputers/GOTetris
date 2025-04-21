@@ -25,6 +25,8 @@ var startCmd = &cobra.Command{
 			util.PRINTMODE = 2
 		case "3", "nocolor":
 			util.PRINTMODE = 3
+		case "4", "60", "electronika":
+			util.PRINTMODE = 4
 		default:
 			util.PRINTMODE = 3
 		}

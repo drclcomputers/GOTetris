@@ -29,6 +29,9 @@ func (g *Game) drawBoard() {
 	util.GoAtTopLeft()
 
 	for y := 0; y < util.HEIGHT; y++ {
+		if util.PRINTMODE == 4 {
+			fmt.Print(util.GREEN)
+		}
 		fmt.Print("│ ")
 		for x := 0; x < util.WIDTH; x++ {
 			cell := tempBoard[y][x]
@@ -72,6 +75,12 @@ func (g *Game) drawBoard() {
 					fmt.Print(util.WHITE)
 				}
 				fmt.Print("[]")
+			case 4:
+				if cell == 0 {
+					fmt.Print(util.GREEN, ". ")
+				} else {
+					fmt.Print(util.GREEN, "[]")
+				}
 			default:
 				if cell == 0 {
 					fmt.Print(". ")
@@ -80,6 +89,9 @@ func (g *Game) drawBoard() {
 				}
 			}
 			fmt.Print(util.BG_BLACK + util.BLACK)
+		}
+		if util.PRINTMODE == 4 {
+			fmt.Print(util.GREEN)
 		}
 		fmt.Println(" │")
 	}

@@ -120,6 +120,9 @@ func (g *Game) Start() {
 func Welcome() {
 	util.HideCursor()
 	util.ClearScreen()
+	if util.PRINTMODE == 4 {
+		fmt.Print(util.GREEN)
+	}
 	fmt.Println("Welcome to GOTetris!")
 	fmt.Println("Controls: Arrow keys to move, Space to rotate, Q to quit")
 	fmt.Println("Press Enter to start...")
@@ -140,4 +143,6 @@ func (g *Game) Goodbye() {
 	util.ShowCursor()
 
 	time.Sleep(1 * time.Second)
+
+	fmt.Print(util.BLACK, util.BG_BLACK)
 }

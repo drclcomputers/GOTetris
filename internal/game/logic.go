@@ -73,13 +73,14 @@ func (g *Game) clearLines() int {
 			cleared++
 		}
 	}
-	g.Score += cleared * 100
+	g.Score += cleared * (util.AUX + 1) * 100
 	return cleared
 }
 
 func (g *Game) adjustScore() {
-	if g.Score%util.MODIFYSCORE == 0 && g.Score != 0 {
-		g.Speed -= 10
+	if g.Score%util.MODIFYSCORE == 0 && g.Score != util.AUX*util.MODIFYSCORE {
+		util.AUX++
+		g.Speed -= 15
 		if g.Speed < util.MINSPEED {
 			g.Speed = util.MINSPEED
 		}

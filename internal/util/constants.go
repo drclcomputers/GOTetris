@@ -8,7 +8,7 @@ package util
 const (
 	WIDTH       = 10
 	HEIGHT      = 20
-	MODIFYSCORE = 1000
+	MODIFYSCORE = 400
 	MINSPEED    = 50
 
 	BLACK   = "\033[0m"
@@ -46,3 +46,5 @@ var Tetraminos = [][][]int{
 var PRINTMODE = 3 // 3: no color, 1: background color, 2: foreground color
 var SOUND = false
 var INITIALSPEED = 165
+
+var AUX = 0
