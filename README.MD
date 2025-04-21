@@ -4,6 +4,10 @@ Welcome to **GoTetris**, a fun and nostalgic Tetris game built entirely in Go! �
 
 ---
 
+![coverart](assets/coverart.png)
+
+---
+
 ## ✨ Features
 
 - 🕹️ **Classic Tetris Gameplay**: Relive the timeless fun of Tetris in your terminal.
