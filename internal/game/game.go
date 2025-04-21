@@ -187,7 +187,7 @@ func (g *Game) Goodbye() {
 		go util.PlayMusic(util.GAMEOVERMUSIC, 1)
 	}
 
-	fmt.Printf("Game Over!\nYour score is: %d\n\nThank you for playing!", g.Score)
+	fmt.Printf("Game Over!\nYour score is: %d\n\nThank you for playing!\n", g.Score)
 
 	time.Sleep(2 * time.Second)
 

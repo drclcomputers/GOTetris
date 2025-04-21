@@ -96,9 +96,9 @@ func (g *Game) drawBoard() {
 				}
 			case 4:
 				if cell == 0 {
-					fmt.Print(util.GREEN, ". ")
+					fmt.Print(util.BG_BLACK, util.GREEN, ". ")
 				} else {
-					fmt.Print(util.GREEN, "[]")
+					fmt.Print(util.BG_BLACK, util.GREEN, "[]")
 				}
 			default:
 				if cell == 0 {
@@ -110,7 +110,7 @@ func (g *Game) drawBoard() {
 			fmt.Print(util.BG_BLACK + util.BLACK)
 		}
 		if util.PRINTMODE == 4 {
-			fmt.Print(util.GREEN)
+			fmt.Print(util.BG_BLACK + util.GREEN)
 		}
 		fmt.Print(" │")
 
