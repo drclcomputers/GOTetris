@@ -48,7 +48,7 @@ func (g *Game) drawBoard() {
 			fmt.Print(util.SLOGAN)
 			fmt.Print(strings.Repeat(" ", offset-len(util.SLOGAN)))
 			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
-				fmt.Print(util.BLACK)
+				fmt.Print(util.WHITE)
 			}
 			fmt.Print("│ ")
 		}
@@ -76,6 +76,7 @@ func (g *Game) drawBoard() {
 					fmt.Print(util.BG_WHITE + "  ")
 				}
 			case 2:
+				fmt.Print(util.BG_BLACK)
 				switch cell {
 				case 0:
 					fmt.Print(util.BLACK + ". ")
