@@ -27,7 +27,7 @@ func (g *Game) drawBoard() {
 			builder.WriteString(strings.Repeat(" ", offset) + "│ ")
 		} else {
 			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
-				builder.WriteString(util.RED)
+				builder.WriteString(util.BG_BLACK + util.RED)
 			}
 			builder.WriteString(util.SLOGAN)
 			builder.WriteString(strings.Repeat(" ", offset-len(util.SLOGAN)))
