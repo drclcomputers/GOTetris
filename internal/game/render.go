@@ -24,7 +24,7 @@ func (g *Game) drawBoard() {
 		}
 
 		if y != 2 {
-			builder.WriteString(strings.Repeat(" ", offset) + "│ ")
+			builder.WriteString(util.BG_BLACK + strings.Repeat(" ", offset) + "│ ")
 		} else {
 			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
 				builder.WriteString(util.BG_BLACK + util.RED)
@@ -78,7 +78,7 @@ func (g *Game) getCellValue(x, y int) int {
 func (g *Game) renderCell(cell int) string {
 	switch g.PrintMode {
 	case 1:
-		return util.BG_COLORS[cell] + "  " + util.BLACK
+		return util.BG_BLACK + util.BG_COLORS[cell] + "  " + util.BLACK
 	case 2:
 		return util.BG_BLACK + util.FG_COLORS[cell] + "[]" + util.BLACK
 	case 4:
