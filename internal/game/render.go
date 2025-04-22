@@ -45,7 +45,7 @@ func (g *Game) drawBoard() {
 		if util.PRINTMODE == 4 {
 			builder.WriteString(util.BG_BLACK + util.GREEN)
 		}
-		builder.WriteString(" │")
+		builder.WriteString(util.BLACK + " │")
 
 		if y == 5 {
 			builder.WriteString(strings.Repeat(" ", 4))
@@ -60,7 +60,7 @@ func (g *Game) drawBoard() {
 		builder.WriteString("\n")
 	}
 
-	builder.WriteString(strings.Repeat(" ", offset) + "└" + strings.Repeat("─", 2*(util.WIDTH+1)) + "┘")
+	builder.WriteString(util.BLACK + strings.Repeat(" ", offset) + "└" + strings.Repeat("─", 2*(util.WIDTH+1)) + "┘")
 	fmt.Print(builder.String())
 
 	g.renderNextTetramino()
