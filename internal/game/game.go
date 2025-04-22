@@ -170,7 +170,7 @@ func Welcome() {
 
 	fmt.Println("Welcome to GOTetris!")
 	fmt.Println()
-	fmt.Println("Controls: Arrow keys or WASD to move, Space or R to rotate, P to pause, Q to quit")
+	fmt.Println("Controls: Arrow keys or WASD to move, M or R to rotate, Space to hard drop, P to pause, Q to quit")
 	fmt.Println("Press Enter to start or type 'q' to exit...")
 
 	var input string

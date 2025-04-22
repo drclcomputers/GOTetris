@@ -16,7 +16,8 @@ Welcome to **GoTetris**, a fun and nostalgic Tetris game built entirely in Go! �
 - ⌨️ **Keyboard Controls**:
   - **Arrow Keys or WASD**: Move and rotate blocks.
   - **'p'**: Pause the game.
-  - **Spacebar or 'r'**: Rotate the current piece.
+  - **'m' or 'r'**: Rotate the current piece.
+  - **Space**: Hard Drop
   - **Q**: Quit the game.
 
 ---
@@ -54,8 +55,9 @@ go build -o gotetris
 2. Use the following controls to play:
 
 * Arrow Keys or WASD: Move the blocks left, right, or down.
-* Spacebar or 'r': Rotate the current block.
+* 'm' or 'r': Rotate the current block.
 * 'p': Pause the game.
+* Space" Hard Drop.
 * Q or ESC: Quit the game.
 
 3. Stack the blocks to clear lines and score points! 🏆
