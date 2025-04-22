@@ -16,7 +16,7 @@ func (g *Game) drawBoard() {
 	var builder strings.Builder
 
 	util.GoAtTopLeft()
-	builder.WriteString(util.TITLE + "\n\n")
+	builder.WriteString(util.BG_BLACK + util.TITLE + "\n\n")
 
 	for y := 0; y < util.HEIGHT; y++ {
 		if util.PRINTMODE == 4 {
