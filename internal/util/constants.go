@@ -44,9 +44,8 @@ var Tetraminos = [][][]int{
 }
 
 var (
-	PRINTMODE    = 3 // 3: no color, 1: background color, 2: foreground color, 4: Electronika 60
-	SOUND        = false
-	INITIALSPEED = 165
+	PRINTMODE = 3 // 3: no color, 1: background color, 2: foreground color, 4: Electronika 60
+	SOUND     = false
 
 	AUX = 0
 
@@ -55,14 +54,14 @@ var (
 )
 
 const TITLE = `
-   ██████   ██████  ████████ ███████ ███████ █████   ██  ████
-  ██       ██    ██    ██    ██         ██   ██   ██ ██ ██   
-  ██  ████ ██    ██    ██    █████      ██   █████   ██   ██
-  ██    ██ ██    ██    ██    ██         ██   ██   ██ ██     ██ 
-   ██████   ██████     ██    ███████    ██   ██   ██ ██  ████        
+   ██████   ██████  ████████ ███████ ████████ █████   ██  ████
+  ██       ██    ██    ██    ██         ██    ██   ██ ██ ██   
+  ██  ████ ██    ██    ██    █████      ██    █████   ██   ██
+  ██    ██ ██    ██    ██    ██         ██    ██   ██ ██     ██ 
+   ██████   ██████     ██    ███████    ██    ██   ██ ██  ████        
 `
 
-const VER = "0.6"
+const VER = "0.8"
 const SLOGAN = "     From RSR with love! <3"
 
 var FG_COLORS = []string{BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE}

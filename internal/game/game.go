@@ -25,7 +25,6 @@ type Game struct {
 	NextShapeType    int
 	PosX, PosY       int
 	Score            int
-	Speed            int
 	PrintMode        int
 	Sound            bool
 	Stop             bool
@@ -35,7 +34,6 @@ type Game struct {
 
 func NewGame() *Game {
 	return &Game{
-		Speed:     util.INITIALSPEED,
 		PrintMode: util.PRINTMODE,
 		Sound:     util.SOUND,
 		Pause:     false,
