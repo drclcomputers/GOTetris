@@ -48,19 +48,19 @@ func (g *Game) drawBoard() {
 		builder.WriteString(util.BLACK + " │")
 
 		if y == 5 {
-			builder.WriteString(strings.Repeat(" ", 4))
-			builder.WriteString(fmt.Sprintf("Score: %d", g.Score))
+			builder.WriteString(util.BG_BLACK + strings.Repeat(" ", 4))
+			builder.WriteString(util.BG_BLACK + fmt.Sprintf("Score: %d", g.Score))
 		}
 
 		if y == 7 {
-			builder.WriteString(strings.Repeat(" ", 4))
-			builder.WriteString("Next:")
+			builder.WriteString(util.BG_BLACK + strings.Repeat(" ", 4))
+			builder.WriteString(util.BG_BLACK + "Next:")
 		}
 
 		builder.WriteString("\n")
 	}
 
-	builder.WriteString(util.BLACK + strings.Repeat(" ", offset) + "└" + strings.Repeat("─", 2*(util.WIDTH+1)) + "┘")
+	builder.WriteString(util.BG_BLACK + strings.Repeat(" ", offset) + "└" + strings.Repeat("─", 2*(util.WIDTH+1)) + "┘")
 	fmt.Print(builder.String())
 
 	g.renderNextTetramino()
