@@ -225,6 +225,8 @@ func Welcome() {
 	util.TERM_WIDTH, util.TERM_HEIGHT = util.GetTerminalSize()
 
 	util.HideCursor()
+	fmt.Print(util.BG_BLACK + util.WHITE)
+
 	util.ClearScreen()
 
 	printInfoStart()
