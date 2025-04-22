@@ -45,7 +45,7 @@ func (g *Game) drawBoard() {
 		if util.PRINTMODE == 4 {
 			builder.WriteString(util.BG_BLACK + util.GREEN)
 		}
-		builder.WriteString(util.BLACK + " │")
+		builder.WriteString(util.BG_BLACK + " │")
 
 		if y == 5 {
 			builder.WriteString(util.BG_BLACK + strings.Repeat(" ", 4))
@@ -80,6 +80,9 @@ func (g *Game) renderCell(cell int) string {
 	case 1:
 		return util.BG_BLACK + util.BG_COLORS[cell] + "  " + util.BLACK
 	case 2:
+		if cell == 0 {
+			return util.BG_BLACK + ". "
+		}
 		return util.BG_BLACK + util.FG_COLORS[cell] + "[]" + util.BLACK
 	case 4:
 		if cell == 0 {
