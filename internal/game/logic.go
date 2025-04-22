@@ -8,6 +8,7 @@ package game
 import (
 	"gotetris/internal/util"
 	"math/rand"
+	"time"
 )
 
 func (g *Game) canMove(shape [][]int, posX, posY int) bool {
@@ -53,6 +54,21 @@ func (g *Game) lockToBoard() {
 	}
 }
 
+func (g *Game) animationClearLines(y int) {
+	aux := make([]int, util.WIDTH)
+	for x := 0; x < util.WIDTH; x++ {
+		aux[x] = g.Board[y][x]
+	}
+	for x := 0; x < util.WIDTH; x++ {
+		g.Board[y][x] = 0
+	}
+	g.drawBoard()
+	time.Sleep(300 * time.Millisecond)
+	for x := 0; x < util.WIDTH; x++ {
+		g.Board[y][x] = aux[x]
+	}
+}
+
 func (g *Game) clearLines() int {
 	cleared := 0
 	for y := util.HEIGHT - 1; y >= 0; y-- {
@@ -66,6 +82,8 @@ func (g *Game) clearLines() int {
 		}
 
 		if full {
+			g.animationClearLines(y)
+
 			for row := y; row > 0; row-- {
 				g.Board[row] = g.Board[row-1]
 			}
@@ -74,7 +92,19 @@ func (g *Game) clearLines() int {
 			y++
 		}
 	}
-	g.Score += cleared * 100
+
+	switch cleared {
+	case 1:
+		g.Score += 40
+	case 2:
+		g.Score += 100
+	case 3:
+		g.Score += 300
+	default:
+		if cleared > 0 {
+			g.Score += 1200
+		}
+	}
 	return cleared
 }
 

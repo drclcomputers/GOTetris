@@ -28,6 +28,7 @@ func parseConfig(printMode string, sound bool) {
 		util.PRINTMODE = 3
 	}
 	util.SOUND = sound
+	util.ENDLESS = endless
 }
 
 var startCmd = &cobra.Command{

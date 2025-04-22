@@ -31,11 +31,21 @@ const (
 
 	GAMEOVERMUSIC   = "assets/gameover2.wav"
 	BACKGROUNDMUSIC = "assets/background.wav"
+
+	VER = "v1.0"
 )
+
+const TITLE = `
+   ██████   ██████  ████████ ███████ ████████ █████   ██  ████
+  ██       ██    ██    ██    ██         ██    ██   ██ ██ ██   
+  ██  ████ ██    ██    ██    █████      ██    █████   ██   ██
+  ██    ██ ██    ██    ██    ██         ██    ██   ██ ██     ██ 
+   ██████   ██████     ██    ███████    ██    ██   ██ ██  ████        
+`
 
 var Tetraminos = [][][]int{
 	{{1, 1, 1, 1}},         // I
-	{{1, 1}, {1, 1}},       // #
+	{{1, 1}, {1, 1}},       // O
 	{{0, 1, 0}, {1, 1, 1}}, // T
 	{{1, 0, 0}, {1, 1, 1}}, // L
 	{{0, 0, 1}, {1, 1, 1}}, // J
@@ -47,22 +57,17 @@ var (
 	PRINTMODE = 3 // 3: no color, 1: background color, 2: foreground color, 4: Electronika 60
 	SOUND     = false
 
-	AUX = 0
+	AUX            = 0
+	ENDLESS        = false
+	DROPSPEED      = 1.0
+	LASTPAUSESTATE = false
 
 	TERM_HEIGHT = 24
 	TERM_WIDTH  = 80
+
+	SLOGAN = "     From RSR with love! <3"
+	PAUSED = "     Paused - <3 from RSR"
 )
-
-const TITLE = `
-   ██████   ██████  ████████ ███████ ████████ █████   ██  ████
-  ██       ██    ██    ██    ██         ██    ██   ██ ██ ██   
-  ██  ████ ██    ██    ██    █████      ██    █████   ██   ██
-  ██    ██ ██    ██    ██    ██         ██    ██   ██ ██     ██ 
-   ██████   ██████     ██    ███████    ██    ██   ██ ██  ████        
-`
-
-const VER = "0.8"
-const SLOGAN = "     From RSR with love! <3"
 
 var FG_COLORS = []string{BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE}
 var BG_COLORS = []string{BG_BLACK, BG_RED, BG_GREEN, BG_YELLOW, BG_BLUE, BG_MAGENTA, BG_CYAN, BG_WHITE}

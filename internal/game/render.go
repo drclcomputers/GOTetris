@@ -25,12 +25,17 @@ func (g *Game) drawBoard() {
 
 		if y != 2 {
 			builder.WriteString(util.BG_BLACK + strings.Repeat(" ", offset) + "│ ")
-		} else {
+		} else if y == 2 {
 			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
 				builder.WriteString(util.BG_BLACK + util.RED)
 			}
-			builder.WriteString(util.SLOGAN)
-			builder.WriteString(strings.Repeat(" ", offset-len(util.SLOGAN)))
+			if !util.LASTPAUSESTATE {
+				builder.WriteString(util.SLOGAN)
+				builder.WriteString(strings.Repeat(" ", offset-len(util.SLOGAN)))
+			} else {
+				builder.WriteString(util.PAUSED)
+				builder.WriteString(strings.Repeat(" ", offset-len(util.PAUSED)))
+			}
 			if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
 				builder.WriteString(util.WHITE)
 			}

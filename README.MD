@@ -11,14 +11,22 @@ Welcome to **GoTetris**, a fun and nostalgic Tetris game built entirely in Go! �
 ## ✨ Features
 
 - 🕹️ **Classic Tetris Gameplay**: Relive the timeless fun of Tetris in your terminal.
-- 🎨 **Customizable Visuals**: Choose between no color, background color, foreground or the original electronika 60 color modes.
+- 🎨 **Customizable Visuals**: Choose between 4 unique print modes:
+  - **Background Color Mode**: Blocks are displayed with colorful backgrounds.
+  - **Foreground Color Mode**: Blocks are displayed with colorful text.
+  - **No Color Mode**: A minimalist, text-only experience.
+  - **Electronika 60 Mode**: A nostalgic green-on-black theme inspired by the original Electronika 60 Tetris.
 - 🎵 **Sound Effects**: Enable or disable sound effects and background music.
+- 🏆 **High Score System**: Track your highest scores and compete with yourself!
 - ⌨️ **Keyboard Controls**:
-  - **Arrow Keys or WASD**: Move and rotate blocks.
+  - **Arrow Keys or WASD**: Move blocks left, right, or down.
+  - **'UP key' or 'w'**: Rotate the current piece.
+  - **Space**: Hard Drop (instantly drop the piece to the bottom).
   - **'p'**: Pause the game.
-  - **'m' or 'r'**: Rotate the current piece.
-  - **Space**: Hard Drop
-  - **Q**: Quit the game.
+  - **'q' or ESC**: Quit the game.
+- 🔄 **Endless Mode**: Play at a steady pace without increasing speed for a relaxed experience.
+- 🚀 **Marathon Mode**: Play until the board fills up, with increasing speed as you clear more lines.
+
 
 ---
 
@@ -55,10 +63,10 @@ go build -o gotetris
 2. Use the following controls to play:
 
 * Arrow Keys or WASD: Move the blocks left, right, or down.
-* 'm' or 'r': Rotate the current block.
+* 'UP key' or 'w': Rotate the current block.
 * 'p': Pause the game.
 * Space" Hard Drop.
-* Q or ESC: Quit the game.
+* 'q' or ESC: Quit the game.
 
 3. Stack the blocks to clear lines and score points! 🏆
 
@@ -71,11 +79,20 @@ Flag |	Description	Default
 -----|----------------------------------------------------------------------------
 -p, --printmode	| Set the print mode: (1)background, (2)foreground, (3)nocolor or (60)electronika 60 | nocolor
 -s, --sound	| Enable or disable sound effects |	false
+-e, --endless | Enable Endless Mode (relaxed gameplay without increasing speed). | false
 
 Example:
 ```bash
-./gotetris start -p=60 -s
+./gotetris start -p=60 -s -e
 ```
+
+---
+
+## 🏆 High Score System
+* Your highest scores are saved locally in score.txt.
+* Compete with yourself and try to beat your best score!
+* The top 5 scores are displayed on the welcome screen.
+
 
 ---
 
@@ -94,6 +111,7 @@ This project uses the following Go libraries:
 * [Cobra](https://github.com/spf13/cobra) for CLI commands.
 * [Beep](https://github.com/faiface/beep) for sound effects.
 * [Keyboard](https://github.com/eiannone/keyboard) for keyboard input handling.
+
 Run Locally
 1. Install dependencies:
 ```bash

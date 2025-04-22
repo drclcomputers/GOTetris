@@ -11,6 +11,9 @@ import (
 	"math/rand"
 	"os"
 	"os/signal"
+	"sort"
+	"strconv"
+	"strings"
 	"syscall"
 	"time"
 
@@ -54,7 +57,7 @@ func (g *Game) pollInput() {
 
 func (g *Game) handleKeyEvent(key keyboard.Key, char rune) {
 	switch {
-	case (key == keyboard.KeyEsc || char == 'q' || char == 'Q') && !g.Pause:
+	case key == keyboard.KeyEsc || char == 'q' || char == 'Q':
 		g.Stop = true
 	case (key == keyboard.KeyArrowLeft || char == 'a' || char == 'A') && !g.Pause:
 		if g.canMove(g.CurrentShape, g.PosX-1, g.PosY) {
@@ -68,17 +71,18 @@ func (g *Game) handleKeyEvent(key keyboard.Key, char rune) {
 		if g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
 			g.PosY++
 		}
-	case (char == 'm' || char == 'M' || char == 'r' || char == 'R') && !g.Pause:
+	case (key == keyboard.KeyArrowUp || char == 'w' || char == 'W') && !g.Pause:
 		rotated := rotate(g.CurrentShape)
 		if g.canMove(rotated, g.PosX, g.PosY) {
 			g.CurrentShape = rotated
 		}
-	case key == keyboard.KeySpace:
+	case key == keyboard.KeySpace && !g.Pause:
 		for g.canMove(g.CurrentShape, g.PosX, g.PosY+1) {
 			g.PosY++
 		}
 	case char == 'p' || char == 'P':
 		g.Pause = !g.Pause
+		util.LASTPAUSESTATE = !util.LASTPAUSESTATE
 	default:
 	}
 }
@@ -87,7 +91,7 @@ func (g *Game) gameLoop() {
 	renderTicker := time.NewTicker(33 * time.Millisecond)
 	defer renderTicker.Stop()
 
-	dropTicker := time.NewTicker(1 * time.Second)
+	dropTicker := time.NewTicker(time.Duration(util.DROPSPEED) * time.Second)
 	defer dropTicker.Stop()
 
 	for !g.Stop {
@@ -110,9 +114,41 @@ func (g *Game) gameLoop() {
 			}
 		}
 		if g.Stop {
-			fmt.Printf("\033[%d;%dH", util.HEIGHT-5, 6)
-			fmt.Print("Press Enter to continue...")
+			gameOverAnimation()
 		}
+	}
+}
+
+func gameOverAnimation() {
+	for i := 0; i < 3; i++ {
+		fmt.Printf("\033[%d;%dH", util.TERM_HEIGHT/2, util.TERM_WIDTH/2-3)
+		if util.PRINTMODE < 3 {
+			fmt.Print(util.BG_BLACK + util.RED + "GAME OVER")
+		} else if util.PRINTMODE == 3 {
+			fmt.Print(util.BG_BLACK + util.WHITE + "GAME OVER")
+		} else {
+			fmt.Print(util.BG_BLACK + util.GREEN + "GAME OVER")
+		}
+		time.Sleep(350 * time.Millisecond)
+		fmt.Printf("\033[%d;%dH", util.TERM_HEIGHT/2, util.TERM_WIDTH/2-3)
+		fmt.Print(strings.Repeat(" ", 9))
+		time.Sleep(350 * time.Millisecond)
+	}
+
+	fmt.Printf("\033[%d;%dH", util.TERM_HEIGHT/2, util.TERM_WIDTH/2-3)
+	if util.PRINTMODE < 3 {
+		fmt.Print(util.BG_BLACK + util.RED + "GAME OVER")
+	} else if util.PRINTMODE == 3 {
+		fmt.Print(util.BG_BLACK + util.WHITE + "GAME OVER")
+	} else {
+		fmt.Print("GAME OVER")
+	}
+
+	fmt.Printf("\033[%d;%dH", 11, 6)
+	if util.PRINTMODE <= 3 {
+		fmt.Print(util.BG_BLACK + util.WHITE + "Press Enter to continue...")
+	} else {
+		fmt.Print(util.BG_BLACK + util.GREEN + "Press Enter to continue...")
 	}
 }
 
@@ -154,19 +190,26 @@ func (g *Game) Start() {
 	g.gameLoop()
 }
 
-func Welcome() {
-	util.TERM_WIDTH, util.TERM_HEIGHT = util.GetTerminalSize()
-
-	util.HideCursor()
-	util.ClearScreen()
-
+func printInfoStart() {
 	if util.PRINTMODE == 4 {
 		fmt.Print(util.GREEN)
 	}
 
 	fmt.Println("Welcome to GOTetris!")
 	fmt.Println()
-	fmt.Println("Controls: Arrow keys or WASD to move, M or R to rotate, Space to hard drop, P to pause, Q to quit")
+	fmt.Println("Controls: Arrow keys or WASD to move, W or UP key to rotate, Space to hard drop, P to pause, Q to quit")
+	fmt.Println()
+	fmt.Println("Highest score: ")
+	printHighScores()
+	fmt.Println()
+	if util.ENDLESS {
+		fmt.Println("Endless (Relaxed) Mode: Play at a steady pace without increasing speed.")
+		util.PAUSED = "      Paused - Relax and enjoy!"
+	} else {
+		fmt.Println("Marathon Mode: Play until the board fills up, with increasing speed as the player clears more lines.")
+	}
+	fmt.Println()
+
 	fmt.Println("Press Enter to start or type 'q' to exit...")
 
 	var input string
@@ -176,9 +219,28 @@ func Welcome() {
 		util.ClearScreen()
 		os.Exit(0)
 	}
+}
+
+func Welcome() {
+	util.TERM_WIDTH, util.TERM_HEIGHT = util.GetTerminalSize()
+
+	util.HideCursor()
+	util.ClearScreen()
+
+	printInfoStart()
 
 	fmt.Print(util.BG_BLACK)
 	util.ClearScreen()
+}
+
+func (g *Game) printInfoEnd() {
+	fmt.Println("Game Over!")
+	fmt.Println()
+	fmt.Println("Highest score: ")
+	printHighScores()
+	fmt.Printf("Your score is: %d", g.Score)
+	fmt.Println()
+	fmt.Println("Thank you for playing!")
 }
 
 func (g *Game) Goodbye() {
@@ -190,8 +252,54 @@ func (g *Game) Goodbye() {
 		go util.PlayMusic(util.GAMEOVERMUSIC, 1)
 	}
 
-	fmt.Printf("Game Over!\nYour score is: %d\n\nThank you for playing!\n", g.Score)
+	g.printInfoEnd()
 
-	time.Sleep(2 * time.Second)
+	g.writeHighScores()
 
+	if g.Sound {
+		time.Sleep(2 * time.Second)
+	}
+
+}
+
+func readHighScores() []int {
+	file, _ := os.ReadFile("score.txt")
+	lines := strings.Split(string(file), "\n")
+	scores := []int{}
+	for _, line := range lines {
+		if score, err := strconv.Atoi(line); err == nil {
+			scores = append(scores, score)
+		}
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(scores)))
+	return scores
+}
+
+func printHighScores() {
+	fmt.Println("Top Scores:")
+	scores := readHighScores()
+	for i, score := range scores {
+		fmt.Printf("%d. %d\n", i+1, score)
+		if i == 4 {
+			break
+		}
+	}
+}
+
+func (g *Game) writeHighScores() {
+	if g.Score == 0 {
+		return
+	}
+
+	file, err := os.OpenFile("score.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		fmt.Println("Error saving high score:", err)
+		return
+	}
+	defer file.Close()
+
+	_, err = file.WriteString(fmt.Sprintf("%d\n", g.Score))
+	if err != nil {
+		fmt.Println("Error writing high score:", err)
+	}
 }
