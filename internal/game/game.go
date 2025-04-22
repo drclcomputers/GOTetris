@@ -157,14 +157,8 @@ func (g *Game) Start() {
 func Welcome() {
 	util.TERM_WIDTH, util.TERM_HEIGHT = util.GetTerminalSize()
 
-	fmt.Print(util.BG_BLACK)
-
 	util.HideCursor()
 	util.ClearScreen()
-
-	if util.PRINTMODE == 1 || util.PRINTMODE == 2 {
-		fmt.Print(util.BG_BLACK)
-	}
 
 	if util.PRINTMODE == 4 {
 		fmt.Print(util.GREEN)
@@ -182,6 +176,8 @@ func Welcome() {
 		util.ClearScreen()
 		os.Exit(0)
 	}
+
+	fmt.Print(util.BG_BLACK)
 	util.ClearScreen()
 }
 
