@@ -82,7 +82,7 @@ func (g *Game) clearLines() int {
 		}
 
 		if full {
-			g.animationClearLines(y)
+			//g.animationClearLines(y)
 
 			for row := y; row > 0; row-- {
 				g.Board[row] = g.Board[row-1]

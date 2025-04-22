@@ -199,7 +199,6 @@ func printInfoStart() {
 	fmt.Println()
 	fmt.Println("Controls: Arrow keys or WASD to move, W or UP key to rotate, Space to hard drop, P to pause, Q to quit")
 	fmt.Println()
-	fmt.Println("Highest score: ")
 	printHighScores()
 	fmt.Println()
 	if util.ENDLESS {
@@ -238,7 +237,6 @@ func Welcome() {
 func (g *Game) printInfoEnd() {
 	fmt.Println("Game Over!")
 	fmt.Println()
-	fmt.Println("Highest score: ")
 	printHighScores()
 	fmt.Printf("Your score is: %d", g.Score)
 	fmt.Println()
