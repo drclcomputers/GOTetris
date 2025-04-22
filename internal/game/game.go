@@ -163,7 +163,7 @@ func Welcome() {
 	util.ClearScreen()
 
 	if util.PRINTMODE == 4 {
-		fmt.Print(util.GREEN)
+		fmt.Print(util.BG_BLACK + util.GREEN)
 	}
 
 	fmt.Println("Welcome to GOTetris!")
