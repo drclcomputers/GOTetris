@@ -98,6 +98,8 @@ func (g *Game) renderNextTetramino() {
 	nextTetraminoRow := 18
 	nextTetraminoCol := util.WIDTH*2 + 10 + (util.TERM_WIDTH-2*util.WIDTH)/2
 
+	fmt.Print(util.BG_BLACK)
+
 	for y := 0; y < len(g.NextShape); y++ {
 		fmt.Printf("\033[%d;%dH", nextTetraminoRow+y, nextTetraminoCol)
 		for x := 0; x < len(g.NextShape[0]); x++ {
